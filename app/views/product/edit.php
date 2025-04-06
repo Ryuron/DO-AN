@@ -58,5 +58,5 @@ width: 100px;">
 </div>
 <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
 </form>
-<a href="/Product/list" class="btn btn-secondary mt-2">Quay lại danh sách
+<a href="/product" class="btn btn-secondary mt-2">Quay lại danh sách
 sản phẩm</a><?php include 'app/views/shares/footer.php'; ?>
