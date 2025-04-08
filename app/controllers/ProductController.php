@@ -174,6 +174,35 @@ class ProductController
         $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
         include 'app/views/product/cart.php';
     }
+    public function updateCart()
+    {
+        $id = $_POST['id'];
+        $action = $_POST['action'];
+
+        if (isset($_SESSION['cart'][$id])) {
+            if ($action === 'increase') {
+                $_SESSION['cart'][$id]['quantity']++;
+            } elseif ($action === 'decrease') {
+                $_SESSION['cart'][$id]['quantity']--;
+                if ($_SESSION['cart'][$id]['quantity'] <= 0) {
+                    unset($_SESSION['cart'][$id]);
+                }
+            }
+        }
+
+        header('Location: /Product/cart');
+        exit;
+    }
+
+    // Xóa sản phẩm khỏi giỏ
+    public function deleteCart()
+    {
+        $id = $_POST['id'];
+        unset($_SESSION['cart'][$id]);
+        header('Location: /Product/cart');
+        exit;
+    }
+
 
     public function checkout()
     {

@@ -1,48 +1,57 @@
 <footer class="bg-light text-center text-lg-start mt-4">
-<div class="container p-4">
-<div class="row">
-<!-- Cột thông tin liên hệ -->
-<div class="col-lg-6 col-md-12 mb-4">
-<h5 class="text-uppercase">Quản lý sản phẩm</h5>
-<p>
-Hệ thống quản lý sản phẩm giúp bạn theo dõi và cập nhật thông tin
+    <div class="container p-4">
+        <div class="row">
+            <!-- Cột thông tin liên hệ -->
+            <div class="col-lg-6 col-md-12 mb-4">
+                <h5 class="text-uppercase">Quản lý sản phẩm</h5>
+                <p>
+                    Hệ thống quản lý sản phẩm giúp bạn theo dõi và cập nhật thông tin sản phẩm dễ dàng.
+                </p>
+            </div>
 
-sản phẩm dễ dàng.
-</p>
-</div>
-<!-- Cột liên kết nhanh -->
+            <!-- Cột liên kết nhanh -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5 class="text-uppercase">Liên kết nhanh</h5>
+                <ul class="list-unstyled mb-0">
+                    <li><a href="/Product/" class="text-dark">Danh sách sản phẩm</a></li>
+                    <li><a href="/Product/add" class="text-dark">Thêm sản phẩm</a></li>
+                </ul>
+            </div>
+
+           <!-- Cột mạng xã hội -->
 <div class="col-lg-3 col-md-6 mb-4">
-<h5 class="text-uppercase">Liên kết nhanh</h5>
-<ul class="list-unstyled mb-0">
-<li><a href="/Product/" class="text-dark">Danh sách sản
+    <h5 class="text-uppercase text-center">Kết nối với chúng tôi</h5>
+    <div class="d-flex justify-content-around align-items-center mt-3">
+        <!-- Facebook -->
+        <a href="https://www.facebook.com/profile.php?id=100024487276074" target="_blank" class="text-dark">
+            <i class="fab fa-facebook-f fa-lg"></i>
+        </a>
 
-phẩm</a></li>
-
-<li><a href="/Product/add" class="text-dark">Thêm sản
-
-phẩm</a></li>
-</ul>
+        <!-- Zalo -->
+        <a href="https://zalo.me/0337157742" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo" class="social-icon">
+        </a>
+    </div>
 </div>
-<!-- Cột mạng xã hội -->
-<div class="col-lg-3 col-md-6 mb-4">
-<h5 class="text-uppercase">Kết nối với chúng tôi</h5>
 
-<a href="#" class="text-dark mr-3"><i class="fab fa-facebook-
-f"></i></a>
 
-<a href="#" class="text-dark mr-3"><i class="fab fa-twitter"></i></a>
+        </div>
+    </div>
 
-<a href="#" class="text-dark mr-3"><i class="fab fa-
-instagram"></i></a>
-
-</div>
-</div>
-</div>
-<!-- Dòng bản quyền -->
-<div class="text-center p-3 bg-dark text-white">
-© 2025 Quản lý sản phẩm. All rights reserved.
-</div>
+    <!-- Dòng bản quyền -->
+    <div class="text-center p-3 bg-dark text-white">
+        © 2025 Quản lý sản phẩm. All rights reserved.
+    </div>
 </footer>
-<!-- Font Awesome Icons -->
-<script src="https://kit.fontawesome.com/a076d05399.js"
-crossorigin="anonymous"></script>
+
+<!-- Font Awesome Icons (link chuẩn hoạt động tốt) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+    .social-icon {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+        vertical-align: middle;
+    }
+</style>
