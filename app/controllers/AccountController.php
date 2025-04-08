@@ -60,18 +60,33 @@ public function logout() {session_start();
     exit;
     }
     public function checkLogin() {
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'] ?? '';
-    $password = $_POST['password'] ?? '';
-    $account = $this->accountModel->getAccountByUsername($username);
-    if ($account && password_verify($password, $account->password)) {
-    session_start();
-    if (!isset($_SESSION['username'])) {
-    $_SESSION['username'] = $account->username;
-    $_SESSION['role'] = $account->role;
-    $_SESSION['account_id'] = $account->id; // Thêm dòng này
-
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $username = $_POST['username'] ?? '';
+            $password = $_POST['password'] ?? '';
+    
+            // Lấy thông tin tài khoản theo username
+            $account = $this->accountModel->getAccountByUsername($username);
+    
+            if ($account && password_verify($password, $account->password)) {
+                session_start();
+    
+                // Lưu thông tin vào session nếu chưa có
+                if (!isset($_SESSION['username'])) {
+                    $_SESSION['username'] = $account->username;
+                    $_SESSION['role'] = $account->role;
+                    $_SESSION['account_id'] = $account->id;
+                }
+    
+                // Đăng nhập thành công -> chuyển hướng
+                header('Location: /product');
+                exit;
+            } else {
+                // Đăng nhập thất bại -> hiển thị lỗi (hoặc có thể redirect)
+                echo "Tên đăng nhập hoặc mật khẩu không đúng.";
+            }
+        }
     }
+    
     public function login()
     {
         include_once 'app/views/account/login.php';
@@ -151,9 +166,7 @@ public function logout() {session_start();
                 include_once 'app/views/account/login.php';
             }
         }
-    }
-<<<<<<< HEAD
-    }
+}
     }
     public function quanLyTaiKhoan() {
         $accounts = $this->accountModel->getAllAccounts(); // Hàm này đã có trong model
@@ -185,9 +198,4 @@ public function logout() {session_start();
     
     
     
-    }
-    ?>
-=======
-    
-}
->>>>>>> e3fd9b21ef0b00c716a887eced857186c6f10dff
+?>
