@@ -16,6 +16,5 @@ public function list()
 $categories = $this->categoryModel->getCategories();
 include 'app/views/category/list.php';
 }
-
 }
 ?>
