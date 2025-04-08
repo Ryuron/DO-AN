@@ -40,6 +40,6 @@ htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?></option>
 </div>
 <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
 </form>
-<a href="/Product" class="btn btn-secondary mt-2">Quay lại danh sách
+<a href="/Product/list" class="btn btn-secondary mt-2">Quay lại danh sách
 sản phẩm</a>
 <?php include 'app/views/shares/footer.php'; ?>
