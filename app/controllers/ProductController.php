@@ -207,48 +207,61 @@ class ProductController
     }
 
     public function processCheckout()
-    {
-        SessionHelper::allowCartActions();
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $name = $_POST['name'];
-            $phone = $_POST['phone'];
-            $address = $_POST['address'];
+{
+    SessionHelper::allowCartActions();
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $name = $_POST['name'];
+        $phone = $_POST['phone'];
+        $address = $_POST['address'];
 
-            if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
-                echo "Giỏ hàng trống.";
-                return;
+        if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
+            echo "Giỏ hàng trống.";
+            return;
+        }
+
+        $this->db->beginTransaction();
+        try {
+            $account_id = $_SESSION['account_id'] ?? null;
+
+            $total = 0;
+            foreach ($_SESSION['cart'] as $item) {
+                $total += $item['price'] * $item['quantity'];
             }
 
-            $this->db->beginTransaction();
-            try {
-                $query = "INSERT INTO orders (name, phone, address) VALUES (:name, :phone, :address)";
+            $query = "INSERT INTO orders (account_id, name, phone, address, total) 
+                      VALUES (:account_id, :name, :phone, :address, :total)";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':account_id', $account_id);
+            $stmt->bindParam(':name', $name);
+            $stmt->bindParam(':phone', $phone);
+            $stmt->bindParam(':address', $address);
+            $stmt->bindParam(':total', $total);
+            $stmt->execute();
+            $order_id = $this->db->lastInsertId();
+
+            $cart = $_SESSION['cart'];
+            foreach ($cart as $product_id => $item) {
+                $query = "INSERT INTO order_details (order_id, product_id, quantity, price) 
+                          VALUES (:order_id, :product_id, :quantity, :price)";
                 $stmt = $this->db->prepare($query);
-                $stmt->bindParam(':name', $name);
-                $stmt->bindParam(':phone', $phone);
-                $stmt->bindParam(':address', $address);
+                $stmt->bindParam(':order_id', $order_id);
+                $stmt->bindParam(':product_id', $product_id);
+                $stmt->bindParam(':quantity', $item['quantity']);
+                $stmt->bindParam(':price', $item['price']);
                 $stmt->execute();
-                $order_id = $this->db->lastInsertId();
-
-                $cart = $_SESSION['cart'];
-                foreach ($cart as $product_id => $item) {
-                    $query = "INSERT INTO order_details (order_id, product_id, quantity, price) VALUES (:order_id, :product_id, :quantity, :price)";
-                    $stmt = $this->db->prepare($query);
-                    $stmt->bindParam(':order_id', $order_id);
-                    $stmt->bindParam(':product_id', $product_id);
-                    $stmt->bindParam(':quantity', $item['quantity']);
-                    $stmt->bindParam(':price', $item['price']);
-                    $stmt->execute();
-                }
-
-                unset($_SESSION['cart']);
-                $this->db->commit();
-                header('Location: /Product/orderConfirmation');
-            } catch (Exception $e) {
-                $this->db->rollBack();
-                echo "Đã xảy ra lỗi khi xử lý đơn hàng: " . $e->getMessage();
             }
+
+            unset($_SESSION['cart']);
+            $this->db->commit();
+            header('Location: /Product/orderConfirmation');
+        } catch (Exception $e) {
+            $this->db->rollBack();
+            echo "Đã xảy ra lỗi khi xử lý đơn hàng: " . $e->getMessage();
         }
     }
+}
+
+
 
     public function orderConfirmation()
     {
