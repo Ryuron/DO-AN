@@ -68,22 +68,31 @@ class AccountController
             $username = $_POST['username'] ?? '';
             $password = $_POST['password'] ?? '';
             $account = $this->accountModel->getAccountByUsername($username);
-            if ($account && password_verify($password, $account->password)) {
+    
+            $errors = [];
+    
+            if (empty($username)) {
+                $errors['username'] = "Vui lòng nhập username!";
+            } elseif (!$account) {
+                $errors['username'] = "Không tìm thấy tài khoản!";
+            }
+    
+            if ($account && !password_verify($password, $account->password)) {
+                $errors['password'] = "Mật khẩu không đúng!";
+            }
+    
+            if (empty($errors)) {
                 session_start();
-                if (!isset($_SESSION['username'])) {
-                    $_SESSION['username'] = $account->username;
-                    $_SESSION['role'] = $account->role;
-                }
+                $_SESSION['username'] = $account->username;
+                $_SESSION['role'] = $account->role;
                 header('Location: /product');
                 exit;
             } else {
-                $error = $account ? "Mật khẩu không đúng!" : "Không tìm thấy tài
-    
-    khoản!";
-
+                // Giữ lại dữ liệu vừa nhập
+                $_POST['username'] = $username;
                 include_once 'app/views/account/login.php';
-                exit;
             }
         }
     }
+    
 }
