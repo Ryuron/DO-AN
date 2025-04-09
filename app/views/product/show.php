@@ -12,9 +12,7 @@
                             <img src="/<?php echo
                                         htmlspecialchars($product->image, ENT_QUOTES, 'UTF-8'); ?>"
 
-                                class="img-fluid rounded" alt="<?php echo
-
-                                                                htmlspecialchars($product->name, ENT_QUOTES, 'UTF-8'); ?>">
+                                class="img-fluid rounded" alt="<?php echo htmlspecialchars($product->name, ENT_QUOTES, 'UTF-8'); ?>">
 
                         <?php else: ?>
                             <img src="/images/no-image.png"
@@ -55,14 +53,11 @@
                             </span>
                         </p>
                         <div class="mt-4">
-                            <a href="/Product/addToCart/<?php echo
-
-                                                        $product->id; ?>"
+                            <a href="/Product/addToCart/<?php echo $product->id; ?>"
 
                                 class="btn btn-success px-4">➕ Thêm vào giỏ hàng</a>
 
-                            <a href="/Product" class="btn btn-
-secondary px-4 ml-2">Quay lại danh sách</a>
+                            <a href="/Product" class="btn btn-secondary px-4 ml-2">Quay lại danh sách</a>
 
                         </div>
                     </div>

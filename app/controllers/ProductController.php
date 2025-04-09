@@ -211,66 +211,90 @@ class ProductController
     }
 
     public function processCheckout()
-{
-    SessionHelper::allowCartActions();
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $name = $_POST['name'];
-        $phone = $_POST['phone'];
-        $address = $_POST['address'];
+    {
+        SessionHelper::allowCartActions();
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $name = $_POST['name'];
+            $phone = $_POST['phone'];
+            $address = $_POST['address'];
 
-        if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
-            echo "Giỏ hàng trống.";
-            return;
-        }
-
-        $this->db->beginTransaction();
-        try {
-            $account_id = $_SESSION['account_id'] ?? null;
-
-            $total = 0;
-            foreach ($_SESSION['cart'] as $item) {
-                $total += $item['price'] * $item['quantity'];
+            if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
+                echo "Giỏ hàng trống.";
+                return;
             }
 
-            $query = "INSERT INTO orders (account_id, name, phone, address, total) 
+            $this->db->beginTransaction();
+            try {
+                $account_id = $_SESSION['account_id'] ?? null;
+
+                $total = 0;
+                foreach ($_SESSION['cart'] as $item) {
+                    $total += $item['price'] * $item['quantity'];
+                }
+
+                $query = "INSERT INTO orders (account_id, name, phone, address, total) 
                       VALUES (:account_id, :name, :phone, :address, :total)";
-            $stmt = $this->db->prepare($query);
-            $stmt->bindParam(':account_id', $account_id);
-            $stmt->bindParam(':name', $name);
-            $stmt->bindParam(':phone', $phone);
-            $stmt->bindParam(':address', $address);
-            $stmt->bindParam(':total', $total);
-            $stmt->execute();
-            $order_id = $this->db->lastInsertId();
-
-            $cart = $_SESSION['cart'];
-            foreach ($cart as $product_id => $item) {
-                $query = "INSERT INTO order_details (order_id, product_id, quantity, price) 
-                          VALUES (:order_id, :product_id, :quantity, :price)";
                 $stmt = $this->db->prepare($query);
-                $stmt->bindParam(':order_id', $order_id);
-                $stmt->bindParam(':product_id', $product_id);
-                $stmt->bindParam(':quantity', $item['quantity']);
-                $stmt->bindParam(':price', $item['price']);
+                $stmt->bindParam(':account_id', $account_id);
+                $stmt->bindParam(':name', $name);
+                $stmt->bindParam(':phone', $phone);
+                $stmt->bindParam(':address', $address);
+                $stmt->bindParam(':total', $total);
                 $stmt->execute();
-            }
+                $order_id = $this->db->lastInsertId();
 
-            unset($_SESSION['cart']);
-            $this->db->commit();
-            header('Location: /Product/orderConfirmation');
-        } catch (Exception $e) {
-            $this->db->rollBack();
-            echo "Đã xảy ra lỗi khi xử lý đơn hàng: " . $e->getMessage();
+                $cart = $_SESSION['cart'];
+                foreach ($cart as $product_id => $item) {
+                    $query = "INSERT INTO order_details (order_id, product_id, quantity, price) 
+                          VALUES (:order_id, :product_id, :quantity, :price)";
+                    $stmt = $this->db->prepare($query);
+                    $stmt->bindParam(':order_id', $order_id);
+                    $stmt->bindParam(':product_id', $product_id);
+                    $stmt->bindParam(':quantity', $item['quantity']);
+                    $stmt->bindParam(':price', $item['price']);
+                    $stmt->execute();
+                }
+
+                unset($_SESSION['cart']);
+                $this->db->commit();
+                header('Location: /Product/orderConfirmation');
+            } catch (Exception $e) {
+                $this->db->rollBack();
+                echo "Đã xảy ra lỗi khi xử lý đơn hàng: " . $e->getMessage();
+            }
         }
     }
-}
-
-
-
     public function orderConfirmation()
     {
         SessionHelper::allowCartActions();
         include 'app/views/product/orderConfirmation.php';
     }
+    public function orderHistory()
+    {
+        SessionHelper::requireLogin();
+        $account_id = $_SESSION['account_id'];
+        $orders = $this->productModel->getOrdersByAccount($account_id);
+        include 'app/views/product/order_history.php';
+    }
+    public function orderDetails($order_id)
+    {
+        SessionHelper::requireLogin();
+        $order = $this->productModel->getOrderDetails($order_id);
+        if ($order) {
+            include 'app/views/product/order_details.php';
+        } else {
+            echo "Không tìm thấy đơn hàng.";
+        }
+    }
+    // Tìm kiếm sản phẩm
+    public function search()
+    {
+        $keyword = $_GET['keyword'] ?? '';
+        $category_id = $_GET['category_id'] ?? '';
+    
+        $products = $this->productModel->searchProducts($keyword, $category_id);
+    
+        include 'app/views/product/search_results.php';
+    }
+    
 }
-?>
