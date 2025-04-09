@@ -131,12 +131,30 @@ class AccountController
         header('Location: /product');
         exit;
     }
-
+    
     public function quanLyTaiKhoan()
     {
-        $accounts = $this->accountModel->getAllAccounts();
+        require_once 'app/helpers/SessionHelper.php';
+        SessionHelper::start();
+    
+        if (SessionHelper::isAdmin()) {
+            // Admin: xem tất cả tài khoản
+            $accounts = $this->accountModel->getAllAccounts();
+        } else {
+            // User: chỉ xem tài khoản của mình
+            $accountId = $_SESSION['account_id'] ?? null;
+            if (!$accountId) {
+                die("⛔ Bạn cần đăng nhập để xem thông tin.");
+            }
+    
+            $account = $this->accountModel->findById($accountId);
+            $accounts = $account ? [$account] : [];
+        }
+    
         include_once 'app/views/account/listAccount.php';
     }
+    
+
 
     public function detail()
     {
@@ -162,4 +180,18 @@ class AccountController
             echo "Không tìm thấy đơn hàng!";
         }
     }
+    
+    public function list()
+    {
+        $keyword = $_GET['keyword'] ?? '';
+    
+        if ($keyword) {
+            $accounts = $this->accountModel->searchByKeyword($keyword);
+        } else {
+            $accounts = $this->accountModel->getAllAccounts(); // dùng đúng tên hàm
+        }
+    
+        require 'app/views/account/listAccount.php';
+    }
+    
 }
