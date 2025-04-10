@@ -1,5 +1,8 @@
 <?php require_once 'app/helpers/SessionHelper.php'; SessionHelper::start(); ?>
+<<<<<<< HEAD
 <?php include 'app/views/shares/header.php'; ?>
+=======
+>>>>>>> a097347fc9c01b03748e45f3ad5096adf3f7aeae
 
 <h2>Danh sách tài khoản</h2>
 
@@ -50,4 +53,8 @@
             </tr>
         <?php endif; ?>
     </tbody>
+<<<<<<< HEAD
 </table>
+=======
+</table>
+>>>>>>> a097347fc9c01b03748e45f3ad5096adf3f7aeae

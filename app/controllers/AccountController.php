@@ -135,7 +135,7 @@ class AccountController
         header('Location: /product');
         exit;
     }
-
+    
     public function quanLyTaiKhoan()
     {
         require_once 'app/helpers/SessionHelper.php';
@@ -157,6 +157,8 @@ class AccountController
     
         include_once 'app/views/account/listAccount.php';
     }
+    
+
 
     public function detail()
     {
@@ -182,4 +184,18 @@ class AccountController
             echo "Không tìm thấy đơn hàng!";
         }
     }
+    
+    public function list()
+    {
+        $keyword = $_GET['keyword'] ?? '';
+    
+        if ($keyword) {
+            $accounts = $this->accountModel->searchByKeyword($keyword);
+        } else {
+            $accounts = $this->accountModel->getAllAccounts(); // dùng đúng tên hàm
+        }
+    
+        require 'app/views/account/listAccount.php';
+    }
+    
 }
