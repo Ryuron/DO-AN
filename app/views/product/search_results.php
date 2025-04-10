@@ -1,4 +1,4 @@
-
+<?php include 'app/views/shares/header.php'; ?>
 <h2>Kết quả tìm kiếm cho từ khóa: <strong><?php echo htmlspecialchars($_GET['keyword'] ?? ''); ?></strong></h2>
 <?php if (empty($products)): ?>
     <div class="alert alert-warning">Không tìm thấy sản phẩm nào phù hợp.</div>

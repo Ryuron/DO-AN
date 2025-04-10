@@ -170,8 +170,8 @@ class ProductController
 
     public function cart()
     {
-        SessionHelper::allowCartActions();
         $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
+        $isLoggedIn = isset($_SESSION['user']);
         include 'app/views/product/cart.php';
     }
     public function updateCart()

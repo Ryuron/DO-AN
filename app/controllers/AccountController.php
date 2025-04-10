@@ -45,8 +45,7 @@ class AccountController
             } elseif (strlen($password) < 6 || !preg_match('/[a-z]/', $password) || !preg_match('/[A-Z]/', $password)) {
                 $errors['password'] = "Mật khẩu cần ít nhất 6 ký tự, bao gồm chữ hoa và chữ thường!";
             }
-            
-            } else {
+             else {
                 if (strlen($password) < 6 || 
                     !preg_match('/[A-Z]/', $password) || 
                     !preg_match('/[a-z]/', $password)) {
@@ -83,6 +82,7 @@ class AccountController
                 }
             }
         }
+    }
     
 
     public function login()
@@ -114,6 +114,7 @@ class AccountController
                 $_SESSION['username'] = $account->username;
                 $_SESSION['role'] = $account->role;
                 $_SESSION['account_id'] = $account->id;
+                $_SESSION['user'] = $account;
                 header('Location: /product');
                 exit;
             } else {
@@ -128,13 +129,32 @@ class AccountController
         session_start();
         unset($_SESSION['username']);
         unset($_SESSION['role']);
+        unset($_SESSION['user']); 
+        unset($_SESSION['account_id']);
+        
         header('Location: /product');
         exit;
     }
 
     public function quanLyTaiKhoan()
     {
-        $accounts = $this->accountModel->getAllAccounts();
+        require_once 'app/helpers/SessionHelper.php';
+        SessionHelper::start();
+    
+        if (SessionHelper::isAdmin()) {
+            // Admin: xem tất cả tài khoản
+            $accounts = $this->accountModel->getAllAccounts();
+        } else {
+            // User: chỉ xem tài khoản của mình
+            $accountId = $_SESSION['account_id'] ?? null;
+            if (!$accountId) {
+                die("⛔ Bạn cần đăng nhập để xem thông tin.");
+            }
+    
+            $account = $this->accountModel->findById($accountId);
+            $accounts = $account ? [$account] : [];
+        }
+    
         include_once 'app/views/account/listAccount.php';
     }
 

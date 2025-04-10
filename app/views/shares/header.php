@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý sản phẩm</title>
-    <link
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-        rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
     <style>
         .product-image {
             max-width: 100px;
@@ -52,9 +53,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/Product/">Danh sách sản phẩm</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/Product/add">Thêm sản phẩm</a>
-                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="/Product/cart">Giỏ hàng</a>
                 </li>
@@ -66,8 +65,11 @@
                         </li>
                     <?php endif; ?>
                     <li class="nav-item">
-                        <a class="nav-link"><?php echo $_SESSION['username']; ?></a>
+                        <a class="nav-link" href="/account/quanLyTaiKhoan">
+                            <i class="fa-solid fa-user"></i> <?php echo $_SESSION['username']; ?>
+                        </a>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="/account/logout">Logout</a>
                     </li>
