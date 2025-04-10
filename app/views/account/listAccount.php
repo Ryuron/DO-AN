@@ -5,21 +5,24 @@ include 'app/views/shares/header.php';
 ?>
 
 <h2>Danh sách tài khoản</h2>
-
 <?php if (SessionHelper::isAdmin()): ?>
-    <form method="GET" action="/account" class="mb-3">
-        <div class="input-group mb-3">
+    <form method="GET" action="/account/list" class="mb-3">
+        <div class="input-group">
             <input 
                 type="text" 
                 name="keyword" 
                 class="form-control" 
-                placeholder="Tìm kiếm theo username hoặc họ tên" 
-                value="<?= isset($_GET['keyword']) ? htmlspecialchars($_GET['keyword']) : '' ?>"
+                placeholder="🔍 Tìm username hoặc họ tên..." 
+                value="<?= htmlspecialchars($_GET['keyword'] ?? '') ?>"
+                aria-label="Từ khóa tìm kiếm"
             >
-            <button class="btn btn-primary" type="submit">Tìm kiếm</button>
+            <button class="btn btn-primary" type="submit">
+                Tìm kiếm
+            </button>
         </div>
     </form>
 <?php endif; ?>
+
 
 <table class="table table-bordered">
     <thead class="table-light">

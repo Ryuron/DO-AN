@@ -114,5 +114,13 @@ class AccountModel
     
         return $stmt->execute();
     }
+    public function searchByKeyword($keyword)
+    {
+        $sql = "SELECT * FROM account 
+                WHERE username LIKE :kw OR fullname LIKE :kw";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['kw' => '%' . $keyword . '%']);
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
     
 }

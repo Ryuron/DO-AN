@@ -247,6 +247,18 @@ class AccountController
             }
         }
     }
+    public function list()
+    {
+        $keyword = $_GET['keyword'] ?? '';
+    
+        if ($keyword) {
+            $accounts = $this->accountModel->searchByKeyword($keyword);
+        } else {
+            $accounts = $this->accountModel->getAllAccounts(); // dùng đúng tên hàm
+        }
+    
+        require 'app/views/account/listAccount.php';
+    }
     
 
 }
