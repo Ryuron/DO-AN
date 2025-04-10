@@ -18,6 +18,10 @@ class SessionHelper {
         self::start();
         return isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
     }
+    public static function isUser() {
+        self::start();
+        return isset($_SESSION['role']) && $_SESSION['role'] === 'user';
+    }
 
     // Lấy vai trò hiện tại của người dùng (mặc định: guest)
     public static function getRole() {
