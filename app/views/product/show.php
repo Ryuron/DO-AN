@@ -9,10 +9,24 @@
                 <div class="row">
                     <div class="col-md-6">
                         <?php if ($product->image): ?>
-                            <img src="/<?php echo
-                                        htmlspecialchars($product->image, ENT_QUOTES, 'UTF-8'); ?>"
-
-                                class="img-fluid rounded" alt="<?php echo htmlspecialchars($product->name, ENT_QUOTES, 'UTF-8'); ?>">
+                            <div class="text-center mb-3">
+                                <img src="/<?php echo htmlspecialchars($product->image, ENT_QUOTES, 'UTF-8'); ?>"
+                                    class="img-fluid rounded shadow-sm" style="max-height: 400px;"
+                                    alt="<?php echo htmlspecialchars($product->name, ENT_QUOTES, 'UTF-8'); ?>">
+                            </div>
+                            <?php if (!empty($galleryImages)): ?>
+                                <div class="mt-3">
+                                    <h5>Ảnh khác</h5>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <?php foreach ($galleryImages as $img): ?>
+                                            <div style="width: 80px; height: 80px;">
+                                                <img src="/<?php echo htmlspecialchars($img->image_path); ?>"
+                                                    class="img-thumbnail w-100 h-100 object-fit-cover" alt="Ảnh phụ">
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
 
                         <?php else: ?>
                             <img src="/images/no-image.png"

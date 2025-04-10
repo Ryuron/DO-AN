@@ -22,48 +22,75 @@ class ProductController
     }
 
     public function show($id)
-    {
-        $product = $this->productModel->getProductById($id);
-        if ($product) {
-            include 'app/views/product/show.php';
-        } else {
-            echo "Không thấy sản phẩm.";
-        }
-    }
+{
+    $product = $this->productModel->getProductById($id);
+    $galleryImages = $this->productModel->getProductImages($id); // 💡 lấy ảnh phụ
 
+    if ($product) {
+        include 'app/views/product/show.php'; // hoặc detail.php nếu bạn đặt tên khác
+    } else {
+        echo "Không tìm thấy sản phẩm.";
+    }
+}
+
+    
     public function add()
     {
         SessionHelper::requireAdmin();
         $categories = (new CategoryModel($this->db))->getCategories();
         include_once 'app/views/product/add.php';
     }
-
     public function save()
     {
         SessionHelper::requireAdmin();
+    
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $name = $_POST['name'] ?? '';
             $description = $_POST['description'] ?? '';
             $price = $_POST['price'] ?? '';
             $category_id = $_POST['category_id'] ?? null;
-
+    
+            // Xử lý ảnh chính
             if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
                 $image = $this->uploadImage($_FILES['image']);
             } else {
                 $image = "";
             }
-
+    
+            // Thêm sản phẩm và lấy ID mới
             $result = $this->productModel->addProduct($name, $description, $price, $category_id, $image);
-
+    
             if (is_array($result)) {
                 $errors = $result;
                 $categories = (new CategoryModel($this->db))->getCategories();
                 include 'app/views/product/add.php';
             } else {
+                $productId = $result; // Nếu addProduct trả về ID
+    
+                // Xử lý nhiều ảnh phụ
+                if (!empty($_FILES['gallery_images']['name'][0])) {
+                    foreach ($_FILES['gallery_images']['tmp_name'] as $key => $tmpName) {
+                        if ($_FILES['gallery_images']['error'][$key] === 0) {
+                            $galleryImage = [
+                                'name' => $_FILES['gallery_images']['name'][$key],
+                                'type' => $_FILES['gallery_images']['type'][$key],
+                                'tmp_name' => $tmpName,
+                                'error' => $_FILES['gallery_images']['error'][$key],
+                                'size' => $_FILES['gallery_images']['size'][$key],
+                            ];
+                            $imagePath = $this->uploadImage($galleryImage);
+    
+                            // Lưu vào bảng product_images
+                            $this->productModel->addProductImage($productId, $imagePath);
+                        }
+                    }
+                }
+    
                 header('Location: /Product');
             }
         }
     }
+    
 
     public function edit($id)
     {
@@ -286,6 +313,8 @@ class ProductController
             echo "Không tìm thấy đơn hàng.";
         }
     }
+    
+
     // Tìm kiếm sản phẩm
     public function search()
     {

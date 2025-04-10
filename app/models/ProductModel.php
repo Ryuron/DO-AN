@@ -59,7 +59,7 @@ category_id, image) VALUES (:name, :description, :price, :category_id, :image)";
         $stmt->bindParam(':category_id', $category_id);
         $stmt->bindParam(':image', $image);
         if ($stmt->execute()) {
-            return true;
+            return $this->conn->lastInsertId(); // 👉 Trả về ID sản phẩm vừa thêm
         }
         return false;
     }
@@ -101,34 +101,47 @@ id=:id";
         }
         return false;
     }
+    // thêm ảnh vào sản phẩm
+    public function addProductImage($productId, $imagePath)
+    {
+        $stmt = $this->conn->prepare("INSERT INTO product_images (product_id, image_path) VALUES (?, ?)");
+        return $stmt->execute([$productId, $imagePath]);
+    }
+
+    public function getProductImages($productId)
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM product_images WHERE product_id = ?");
+        $stmt->execute([$productId]);
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
     public function searchProducts($keyword = '', $category_id = '')
     {
         $query = "SELECT p.*, c.name as category_name
                   FROM product p
                   LEFT JOIN category c ON p.category_id = c.id
                   WHERE 1";
-    
+
         if (!empty($keyword)) {
             $query .= " AND LOWER(p.name) LIKE :keyword";
         }
-    
+
         if (!empty($category_id)) {
             $query .= " AND p.category_id = :category_id";
         }
-    
+
         $stmt = $this->conn->prepare($query);
-    
+
         if (!empty($keyword)) {
             $keyword = '%' . mb_strtolower($keyword, 'UTF-8') . '%';
             $stmt->bindParam(':keyword', $keyword);
         }
-    
+
         if (!empty($category_id)) {
             $stmt->bindParam(':category_id', $category_id);
         }
-    
+
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
-    
 }
