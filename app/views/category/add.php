@@ -8,5 +8,5 @@
     <textarea id="description" name="description"></textarea><br><br>
 
     <button type="submit">Thêm</button>
-    <a href="index.php?url=category">Quay lại</a>
+    <a href="index.php?url=category/list">Quay lại</a>
 </form>

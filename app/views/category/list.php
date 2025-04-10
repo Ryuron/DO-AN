@@ -1,29 +1,85 @@
-<h2>Danh sách danh mục</h2>
+<!DOCTYPE html>
+<html lang="en">
 
-<a href="index.php?url=category/add" class="btn btn-success" style="margin-bottom: 10px;">➕ Thêm danh mục</a>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý sản phẩm</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<table border="1" cellpadding="8" style="width: 100%; border-collapse: collapse;">
-    <thead>
-        <tr style="background-color: #f2f2f2;">
-            <th>STT</th>
-            <th>Tên danh mục</th>
-            <th>Mô tả</th>
-            <th>Hành động</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php $stt = 1; foreach ($categories as $category): ?>
-        <tr>
-            <td><?= $stt++ ?></td> <!-- STT thay cho ID -->
-            <td><?= htmlspecialchars($category->name) ?></td>
-            <td><?= htmlspecialchars($category->description) ?></td>
-            <td>
-                <a href="index.php?url=category/edit/<?= $category->id ?>" class="btn btn-warning">✏️ Sửa</a>
-                <a href="index.php?url=category/delete/<?= $category->id ?>"
-                   onclick="return confirm('Xoá danh mục này?');"
-                   class="btn btn-danger">🗑 Xoá</a>
-            </td>
-        </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+
+    <style>
+        .product-image {
+            max-width: 100px;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Quản lý sản phẩm</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+
+            <ul class="navbar-nav">
+                <form class="form-inline ml-auto" action="/Product/search" method="GET">
+                    <input class="form-control mr-sm-2" type="search" name="keyword"
+                        placeholder="Tìm sản phẩm..." aria-label="Search"
+                        value="<?= htmlspecialchars($_GET['keyword'] ?? '') ?>">
+
+                    <select class="form-control mr-sm-2" name="category_id">
+                        <option value="">-- Danh mục --</option>
+                        <?php
+                        require_once 'app/models/CategoryModel.php';
+                        $categoryModel = new CategoryModel((new Database())->getConnection());
+                        $categories = $categoryModel->getCategories();
+                        foreach ($categories as $cat):
+                        ?>
+                            <option value="<?= $cat->id ?>" <?= (isset($_GET['category_id']) && $_GET['category_id'] == $cat->id) ? 'selected' : '' ?>>
+                                <?= $cat->name ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Tìm</button>
+                </form>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/Product/">Danh sách sản phẩm</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/Product/cart">Giỏ hàng</a>
+                </li>
+
+                <?php if (SessionHelper::isLoggedIn()): ?>
+                    <?php if ($_SESSION['role'] === 'admin'): ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/account/quanLyTaiKhoan">Quản lý tài khoản</a>
+                        </li>
+                    <?php endif; ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/account/quanLyTaiKhoan">
+                            <i class="fa-solid fa-user"></i> <?php echo $_SESSION['username']; ?>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/account/logout">Logout</a>
+                    </li>
+                <?php else: ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/account/login">Login</a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+
+        </div>
+    </nav>
+    <div class="container mt-4">

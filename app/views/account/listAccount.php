@@ -1,13 +1,8 @@
 <?php require_once 'app/helpers/SessionHelper.php'; SessionHelper::start(); ?>
-<<<<<<< HEAD
-<?php include 'app/views/shares/header.php'; ?>
-=======
->>>>>>> a097347fc9c01b03748e45f3ad5096adf3f7aeae
 
 <h2>Danh sách tài khoản</h2>
 
 <?php if (SessionHelper::isAdmin()): ?>
-<!-- Admin mới có form tìm kiếm -->
 <form method="GET" action="/account/list" class="mb-3">
     <div class="input-group mb-3">
         <input 
@@ -36,14 +31,12 @@
         <?php if (!empty($accounts)): ?>
             <?php foreach ($accounts as $acc): ?>
                 <tr>
-                    <<td><?= htmlspecialchars($acc['id']) ?></td>
-<td><?= htmlspecialchars($acc['username']) ?></td>
-<td><?= htmlspecialchars($acc['fullname']) ?></td>
-<td><?= htmlspecialchars($acc['role']) ?></td>
-
+                    <td><?= htmlspecialchars($acc->id) ?></td>
+                    <td><?= htmlspecialchars($acc->username) ?></td>
+                    <td><?= htmlspecialchars($acc->fullname) ?></td>
+                    <td><?= htmlspecialchars($acc->role) ?></td>
                     <td>
-                    <a href="/account/detail?id=<?= $acc['id'] ?>" class="btn btn-sm btn-info">Xem chi tiết</a>
-
+                        <a href="/account/detail?id=<?= $acc->id ?>" class="btn btn-sm btn-info">Xem chi tiết</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -53,8 +46,4 @@
             </tr>
         <?php endif; ?>
     </tbody>
-<<<<<<< HEAD
 </table>
-=======
-</table>
->>>>>>> a097347fc9c01b03748e45f3ad5096adf3f7aeae
