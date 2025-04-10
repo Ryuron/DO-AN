@@ -7,7 +7,7 @@ include 'app/views/shares/header.php';
 <h2>Danh sách tài khoản</h2>
 
 <?php if (SessionHelper::isAdmin()): ?>
-    <form method="GET" action="/account/list" class="mb-3">
+    <form method="GET" action="/account" class="mb-3">
         <div class="input-group mb-3">
             <input 
                 type="text" 
