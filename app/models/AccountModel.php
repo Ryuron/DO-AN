@@ -73,8 +73,9 @@ class AccountModel
         $sql = "SELECT * FROM account WHERE id = :id";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute(['id' => $id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetch(PDO::FETCH_OBJ); // Trả về object để tương thích với $account->id, $account->fullname, ...
     }
+    
 
     public function getOrderHistoryByAccountId($accountId)
     {
@@ -97,4 +98,21 @@ class AccountModel
         $stmt->execute(['accountId' => $accountId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function updateInfo($id, $fullname, $phone, $address)
+    {
+        $query = "UPDATE account 
+                  SET fullname = :fullname, phone = :phone, address = :address 
+                  WHERE id = :id";
+                  
+        $stmt = $this->conn->prepare($query);
+    
+        // Ràng buộc giá trị với tham số truy vấn
+        $stmt->bindParam(':fullname', $fullname);
+        $stmt->bindParam(':phone', $phone);
+        $stmt->bindParam(':address', $address);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    
+        return $stmt->execute();
+    }
+    
 }

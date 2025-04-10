@@ -182,4 +182,71 @@ class AccountController
             echo "Không tìm thấy đơn hàng!";
         }
     }
+    public function edit()
+    {
+        require_once 'app/helpers/SessionHelper.php';
+        SessionHelper::start();
+    
+        $accountId = $_SESSION['account_id'] ?? null;
+        if (!$accountId) {
+            echo "⛔ Bạn cần đăng nhập để chỉnh sửa thông tin.";
+            return;
+        }
+    
+        $account = $this->accountModel->findById($accountId);
+        if (!$account) {
+            echo "Không tìm thấy tài khoản!";
+            return;
+        }
+    
+        include_once 'app/views/account/edit.php';
+    }
+    
+    public function update()
+    {
+        require_once 'app/helpers/SessionHelper.php';
+        SessionHelper::start();
+    
+        $accountId = $_SESSION['account_id'] ?? null;
+        if (!$accountId) {
+            echo "⛔ Bạn cần đăng nhập để cập nhật thông tin.";
+            return;
+        }
+    
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $fullname = $_POST['fullname'] ?? '';
+            $phone = $_POST['phone'] ?? '';
+            $address = $_POST['address'] ?? '';
+    
+            $errors = [];
+    
+            if (empty($fullname)) {
+                $errors['fullname'] = "Vui lòng nhập họ tên!";
+            } elseif (mb_strlen($fullname) < 4 || mb_strlen($fullname) > 70) {
+                $errors['fullname'] = "Họ tên phải từ 4 đến 70 ký tự!";
+            }
+    
+            if (empty($phone)) {
+                $errors['phone'] = "Vui lòng nhập số điện thoại!";
+            } elseif (!preg_match('/^(0|\+84)[0-9]{9}$/', $phone)) {
+                $errors['phone'] = "Số điện thoại không hợp lệ!";
+            }
+    
+            if (count($errors) > 0) {
+                $account = (object)[
+                    'id' => $accountId,
+                    'fullname' => $fullname,
+                    'phone' => $phone,
+                    'address' => $address
+                ];
+                include_once 'app/views/account/edit.php';
+            } else {
+                $this->accountModel->updateInfo($accountId, $fullname, $phone, $address);
+                header('Location: /account/quanLyTaiKhoan');
+                exit;
+            }
+        }
+    }
+    
+
 }

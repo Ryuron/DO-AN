@@ -27,3 +27,5 @@
         <?php endforeach; ?>
     </tbody>
 </table>
+<a href="/Product" class="btn btn-secondary mt-2">Quay lại danh sách
+sản phẩm</a>
