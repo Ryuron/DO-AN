@@ -79,27 +79,22 @@ class AccountModel
     public function getOrderHistoryByAccountId($accountId)
     {
         $sql = "SELECT 
-                    o.created_at,
-                    p.name AS product_name,
-                    od.quantity,
-                    (od.quantity * od.price) AS line_total
-                FROM orders o
-                JOIN order_details od ON o.id = od.order_id
-                JOIN product p ON od.product_id = p.id
-                WHERE o.account_id = :accountId
-                ORDER BY o.created_at DESC";
-    
+                a.fullname AS account_name,
+                o.created_at,
+                p.name AS product_name,
+                od.price AS product_price,
+                od.quantity,
+                (od.quantity * od.price) AS line_total,
+                o.total AS order_total
+            FROM orders o
+            JOIN account a ON o.account_id = a.id
+            JOIN order_details od ON o.id = od.order_id
+            JOIN product p ON od.product_id = p.id
+            WHERE o.account_id = :accountId
+            ORDER BY o.created_at DESC";
+
         $stmt = $this->conn->prepare($sql);
         $stmt->execute(['accountId' => $accountId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-    
-    public function searchByKeyword($keyword)
-    {
-        $sql = "SELECT * FROM account 
-                WHERE username LIKE :kw OR fullname LIKE :kw";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute(['kw' => '%' . $keyword . '%']);
-        return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 }

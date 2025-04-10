@@ -1,4 +1,5 @@
 <?php require_once 'app/helpers/SessionHelper.php'; SessionHelper::start(); ?>
+<?php include 'app/views/shares/header.php'; ?>
 
 <h2>Danh sách tài khoản</h2>
 
