@@ -28,12 +28,6 @@
           class="btn btn-danger"
           onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">Xóa</a>
       <?php endif; ?>
-
-      <?php if (SessionHelper::isLoggedIn()): ?>
-        <a href="/Product/addToCart/<?php echo $product->id; ?>" class="btn btn-primary">Thêm vào giỏ hàng</a>
-      <?php else: ?>
-        <button class="btn btn-primary add-to-cart-popup">Thêm vào giỏ hàng</button>
-      <?php endif; ?>
     </div>
   <?php endforeach; ?>
 </div>

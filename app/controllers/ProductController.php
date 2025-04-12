@@ -173,17 +173,21 @@ class ProductController
 
     public function addToCart($id)
     {
-        SessionHelper::allowCartActions();
+        if (!SessionHelper::isLoggedIn()) {
+            header('Location: /Account/login'); // Hoặc có thể chuyển hướng về trang hiện tại kèm thông báo
+            exit;
+        }
+    
         $product = $this->productModel->getProductById($id);
         if (!$product) {
             echo "Không tìm thấy sản phẩm.";
             return;
         }
-
+    
         if (!isset($_SESSION['cart'])) {
             $_SESSION['cart'] = [];
         }
-
+    
         if (isset($_SESSION['cart'][$id])) {
             $_SESSION['cart'][$id]['quantity']++;
         } else {
@@ -194,9 +198,11 @@ class ProductController
                 'image' => $product->image
             ];
         }
-
+    
         header('Location: /Product/cart');
+        exit;
     }
+    // Hiển thị giỏ hàng  
 
     public function cart()
     {

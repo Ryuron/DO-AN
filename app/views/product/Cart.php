@@ -68,7 +68,7 @@
         <p style="color: #ffffff;">Giỏ hàng của bạn đang trống.</p>
     <?php endif; ?>
 
-    <a href="/Product" class="btn btn-secondary mt-2">Tiếp tục mua sắm</a>
+    <a href="/Product" class="btn btn-secondary btn-glass mt-3">Tiếp tục mua sắm</a>
 </div>
 
 <style>
