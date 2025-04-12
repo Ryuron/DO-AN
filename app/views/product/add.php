@@ -1,5 +1,5 @@
 <?php include 'app/views/shares/header.php'; ?>
-<h1>Thêm sản phẩm mới</h1>
+<h1 style="color:aliceblue">Thêm sản phẩm mới</h1>
 <?php if (!empty($errors)): ?>
     <div class="alert alert-danger">
         <ul>
@@ -12,38 +12,36 @@
 <form method="POST" action="/Product/save" enctype="multipart/form-data"
     onsubmit="return validateForm();">
     <div class="form-group">
-        <label for="name">Tên sản phẩm:</label>
+        <label for="name" style="color:aliceblue">Tên sản phẩm:</label>
         <input type="text" id="name" name="name" class="form-control" required>
     </div>
     <div class="form-group">
-        <label for="description">Mô tả:</label>
+        <label for="description" style="color:aliceblue">Mô tả:</label>
         <textarea id="description" name="description" class="form-control"
             required></textarea>
     </div>
     <div class="form-group">
-        <label for="price">Giá:</label>
+        <label for="price" style="color:aliceblue">Giá:</label>
         <input type="number" id="price" name="price" class="form-control" step="0.01"
             required>
     </div>
     <div class="form-group">
-        <label for="category_id">Danh mục:</label>
+        <label for="category_id" style="color:aliceblue">Danh mục:</label>
         <select id="category_id" name="category_id" class="form-control" required>
             <?php foreach ($categories as $category): ?>
-                <option value="<?php echo $category->id; ?>"><?php echo
-                                                                htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?></option>
-
+                <option value="<?php echo $category->id; ?>"><?php echo htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?></option>
             <?php endforeach; ?>
         </select>
     </div>
     <!-- Ảnh chính -->
     <div class="form-group">
-        <label for="image">Ảnh chính:</label>
+        <label for="image" style="color:aliceblue">Ảnh chính:</label>
         <input type="file" id="image" name="image" class="form-control" required>
     </div>
 
     <!-- Ảnh phụ -->
     <div class="form-group">
-        <label for="gallery_images">Ảnh phụ (có thể chọn nhiều):</label>
+        <label for="gallery_images" style="color:aliceblue">Ảnh phụ (có thể chọn nhiều):</label>
         <input type="file" id="gallery_images" name="gallery_images[]" class="form-control" multiple>
     </div>
 

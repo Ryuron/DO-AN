@@ -9,7 +9,7 @@ $address = $account['address'] ?? '';
 
 <form method="POST" action="/Product/processCheckout">
     <div class="form-group">
-        <label for="name">Họ tên:</label>
+        <label for="name" style="color:aliceblue">Họ tên:</label>
         <input type="text" id="name" name="name" class="form-control" value="<?= htmlspecialchars($name) ?>" required>
     </div>
     <div class="form-group">
