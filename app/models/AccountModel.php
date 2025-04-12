@@ -122,5 +122,14 @@ class AccountModel
         $stmt->execute(['kw' => '%' . $keyword . '%']);
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+    public function updatePassword($id, $hashedPassword)
+    {
+        $query = "UPDATE account SET password = :password WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':password', $hashedPassword);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+    
     
 }

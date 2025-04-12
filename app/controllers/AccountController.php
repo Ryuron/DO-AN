@@ -218,8 +218,13 @@ class AccountController
             $phone = $_POST['phone'] ?? '';
             $address = $_POST['address'] ?? '';
     
+            $currentPassword = $_POST['current_password'] ?? '';
+            $newPassword = $_POST['new_password'] ?? '';
+            $confirmNewPassword = $_POST['confirm_new_password'] ?? '';
+    
             $errors = [];
     
+            // Kiểm tra thông tin cá nhân
             if (empty($fullname)) {
                 $errors['fullname'] = "Vui lòng nhập họ tên!";
             } elseif (mb_strlen($fullname) < 4 || mb_strlen($fullname) > 70) {
@@ -232,21 +237,49 @@ class AccountController
                 $errors['phone'] = "Số điện thoại không hợp lệ!";
             }
     
+            // Lấy thông tin tài khoản từ DB
+            $account = $this->accountModel->findById($accountId);
+    
+            // Xử lý đổi mật khẩu nếu người dùng nhập vào
+            if (!empty($currentPassword) || !empty($newPassword) || !empty($confirmNewPassword)) {
+                if (empty($currentPassword)) {
+                    $errors['current_password'] = "Vui lòng nhập mật khẩu hiện tại!";
+                } elseif (!password_verify($currentPassword, $account->password)) {
+                    $errors['current_password'] = "Mật khẩu hiện tại không chính xác!";
+                }if (empty($newPassword)) {
+                    $errors['new_password'] = "Vui lòng nhập mật khẩu mới!";
+                } elseif (mb_strlen($newPassword) < 6 || !preg_match('/[a-z]/', $newPassword) || !preg_match('/[A-Z]/', $newPassword)) {
+                    $errors['new_password'] = "Mật khẩu mới phải có ít nhất 6 ký tự, bao gồm chữ hoa và chữ thường!";
+                }
+                
+    
+                if ($newPassword !== $confirmNewPassword) {
+                    $errors['confirm_new_password'] = "Mật khẩu xác nhận không khớp!";
+                }
+            }
+    
+            // Nếu có lỗi → quay lại form
             if (count($errors) > 0) {
-                $account = (object)[
-                    'id' => $accountId,
-                    'fullname' => $fullname,
-                    'phone' => $phone,
-                    'address' => $address
-                ];
+                $account->fullname = $fullname;
+                $account->phone = $phone;
+                $account->address = $address;
                 include_once 'app/views/account/edit.php';
             } else {
+                // Cập nhật thông tin cá nhân
                 $this->accountModel->updateInfo($accountId, $fullname, $phone, $address);
+    
+                // Cập nhật mật khẩu nếu có
+                if (!empty($currentPassword) && !empty($newPassword) && empty($errors['current_password'])) {
+                    $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+                    $this->accountModel->updatePassword($accountId, $hashedPassword);
+                }
+    
                 header('Location: /account/quanLyTaiKhoan');
                 exit;
             }
         }
     }
+    
     public function list()
     {
         $keyword = $_GET['keyword'] ?? '';

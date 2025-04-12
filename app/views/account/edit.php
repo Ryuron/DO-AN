@@ -15,19 +15,20 @@
     <hr>
 
     <h4>Đổi mật khẩu</h4>
-    
+
     <label>Mật khẩu hiện tại:</label><br>
-    <input type="password" name="current_password"><br>
+    <input type="password" name="current_password" autocomplete="off"><br>
     <span style="color:red"><?= $errors['current_password'] ?? '' ?></span><br>
 
     <label>Mật khẩu mới:</label><br>
-    <input type="password" name="new_password"><br>
+    <input type="password" name="new_password" autocomplete="off"><br>
     <span style="color:red"><?= $errors['new_password'] ?? '' ?></span><br>
 
     <label>Xác nhận mật khẩu mới:</label><br>
-    <input type="password" name="confirm_new_password"><br>
+    <input type="password" name="confirm_new_password" autocomplete="off"><br>
     <span style="color:red"><?= $errors['confirm_new_password'] ?? '' ?></span><br>
 
     <br>
     <button type="submit">Lưu thay đổi</button>
 </form>
+<a href="/Account/quanLyTaiKhoan" class="btn btn-secondary mt-2">Quay lại</a>

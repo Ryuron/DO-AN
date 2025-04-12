@@ -19,3 +19,4 @@
         <?php endforeach; ?>
     </tbody>
 </table>
+<a href="/Account/quanLyTaiKhoan" class="btn btn-secondary mt-2">Quay lại</a>
