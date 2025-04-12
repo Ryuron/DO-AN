@@ -3,6 +3,7 @@ require_once('app/helpers/SessionHelper.php');
 require_once('app/config/database.php');
 require_once('app/models/ProductModel.php');
 require_once('app/models/CategoryModel.php');
+require_once 'app/models/AccountModel.php';
 
 class ProductController
 {
@@ -234,6 +235,16 @@ class ProductController
     public function checkout()
     {
         SessionHelper::allowCartActions();
+
+        $account_id = $_SESSION['account_id'] ?? null;
+     
+        $account = null;
+        if ($account_id) {
+            // gọi model lấy thông tin user từ DB
+            $accountModel = new AccountModel($this->db);
+            $account = $accountModel->getAccountById($account_id);
+        }
+    
         include 'app/views/product/checkout.php';
     }
 
