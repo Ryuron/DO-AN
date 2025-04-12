@@ -5,9 +5,9 @@
     <a href="/Product/add" class="btn btn-success mb-2">Thêm sản phẩm mới</a>
 <?php endif; ?>
 
-<ul class="list-group">
+<div class="product-grid">
 <?php foreach ($products as $product): ?>
-    <li class="list-group-item">
+    <div class="product-card">
         <h2>
             <a href="/Product/show/<?php echo $product->id; ?>">
                 <?php echo htmlspecialchars($product->name, ENT_QUOTES, 'UTF-8'); ?>
@@ -15,7 +15,7 @@
         </h2>
 
         <?php if ($product->image): ?>
-            <img src="/<?php echo $product->image; ?>" alt="Product Image" style="max-width: 100px;">
+            <img src="/<?php echo $product->image; ?>" alt="Product Image">
         <?php endif; ?>
 
         <p><?php echo htmlspecialchars($product->description, ENT_QUOTES, 'UTF-8'); ?></p>
@@ -34,9 +34,9 @@
         <?php else: ?>
             <button class="btn btn-primary add-to-cart-popup">Thêm vào giỏ hàng</button>
         <?php endif; ?>
-    </li>
+    </div>
 <?php endforeach; ?>
-</ul>
+</div>
 
 <!-- Popup đăng nhập -->
 <div id="login-popup" class="popup-overlay" style="display: none;">
@@ -51,6 +51,67 @@
 
 <!-- CSS và JS -->
 <style>
+/* Nền toàn trang */
+body {
+  background-image: url('https://tipsmake.com/data/images/beautiful-technology-background-picture-4-1xJsgdLW6.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  color: white;
+  position: relative;
+  z-index: 1;
+}
+
+/* Lớp phủ làm mờ nền */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+}
+
+/* Product Grid */
+.product-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start;
+  margin-top: 20px;
+}
+
+.product-card {
+  background: rgba(255, 255, 255, 0.9);
+  color: black;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 15px;
+  width: calc(33.333% - 20px);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.product-card img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+  .product-card {
+    width: calc(50% - 20px);
+  }
+}
+
+@media (max-width: 480px) {
+  .product-card {
+    width: 100%;
+  }
+}
+
+/* Popup */
 .popup-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
