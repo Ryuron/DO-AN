@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý sản phẩm</title>
+    <title> Quản lý sản phẩm </title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -55,7 +55,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg glass-navbar">
-        <a class="navbar-brand font-weight-bold" href="/Product">Quản lý sản phẩm</a>
+        <a class="navbar-brand font-weight-bold" href="/Product"> Trang chủ </a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -87,27 +87,26 @@
                     <button class="btn btn-outline-success" type="submit">Tìm</button>
                 </form>
 
-                <!-- Các liên kết menu -->
-                <li class="nav-item dropdown">
+                <!-- Các liên kết menu
+              <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdownDanhSachSanPham" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Danh sách sản phẩm
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownDanhSachSanPham">
-                        <!-- Đây là nơi bạn tự điền các mục trong danh sách sản phẩm -->
-                        <a class="dropdown-item" href="/Product/show/4">Sản phẩm 1</a>
+                        Đây là nơi bạn tự điền các mục trong danh sách sản phẩm -->
+                <!-- <a class="dropdown-item" href="/Product/show/4">Sản phẩm 1</a>
                         <a class="dropdown-item" href="/Product/show/5">Sản phẩm 2</a>
                         <a class="dropdown-item" href="/Product/show/6">Sản phẩm 3</a>
-                    
-                        <!-- Thêm các mục khác tại đây -->
-                    </div>
-                </li>
+                     -->
+                <!-- Thêm các mục khác tại đây -->
+                <!-- </div> -->
+                <!-- </li> -->
                 <li class="nav-item">
                     <a class="nav-link" href="/Product/cart">Giỏ hàng</a>
                 </li>
-                
                 <?php if (SessionHelper::isAdmin()): ?>
                     <li class="nav-item">
-                    <a class="nav-link" href="/category/list">Quản lý danh mục</a>
+                        <a class="nav-link" href="/category/list">Quản lý danh mục</a>
                     </li>
                 <?php endif; ?>
                 

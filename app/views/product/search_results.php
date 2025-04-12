@@ -1,5 +1,6 @@
 <?php include 'app/views/shares/header.php'; ?>
-<h2>Kết quả tìm kiếm cho từ khóa: <strong><?php echo htmlspecialchars($_GET['keyword'] ?? ''); ?></strong></h2>
+
+<h2 style="color:aliceblue;"> Kết quả tìm kiếm cho từ khóa: <strong><?php echo htmlspecialchars($_GET['keyword'] ?? ''); ?></strong></h2>
 <?php if (empty($products)): ?>
     <div class="alert alert-warning">Không tìm thấy sản phẩm nào phù hợp.</div>
 <?php else: ?>
@@ -21,5 +22,5 @@
         <?php endforeach; ?>
     </div>
 <?php endif; ?>
-<a href="/Product" class="btn btn-secondary mt-2">Quay lại danh sách sản phẩm</a>
+<a href="/Product" class="btn btn-secondary mt-2">Quay lại trang chủ</a>
 <?php include 'app/views/shares/footer.php'; ?>

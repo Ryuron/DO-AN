@@ -70,20 +70,21 @@ class AccountModel
     }
     
     public function getAccountById($accountId)
-    {
-        $query = "SELECT * FROM account WHERE id = :account_id LIMIT 1";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":account_id", $accountId, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
+   
+     {
+         $query = "SELECT * FROM account WHERE id = :account_id LIMIT 1";
+         $stmt = $this->conn->prepare($query);
+         $stmt->bindParam(":account_id", $accountId, PDO::PARAM_INT);
+         $stmt->execute();
+         return $stmt->fetch(PDO::FETCH_ASSOC);
+     }
     
     public function findById($id)
     {
         $sql = "SELECT * FROM account WHERE id = :id";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute(['id' => $id]);
-        return $stmt->fetch(PDO::FETCH_OBJ); // Trả về object để tương thích với $account->id, $account->fullname, ...
+return $stmt->fetch(PDO::FETCH_OBJ); // Trả về object để tương thích với $account->id, $account->fullname, ...
     }public function getOrderHistoryByAccountId($accountId)
     {
         $sql = "SELECT 
@@ -139,6 +140,4 @@ class AccountModel
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
-    
-    
 }

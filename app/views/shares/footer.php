@@ -14,7 +14,7 @@
                 <h5 class="text-uppercase fw-bold">Liên kết nhanh</h5>
                 <ul class="list-unstyled mb-0">
                     <li><a href="/Product/" class="footer-link">Danh sách sản phẩm</a></li>
-                    <li><a href="/Product/add" class="footer-link">Thêm sản phẩm</a></li>
+                    <!-- <li><a href="/Product/add" class="footer-link">Thêm sản phẩm</a></li> -->
                 </ul>
             </div>
 
@@ -39,6 +39,7 @@
     <!-- Dòng bản quyền -->
     <div class="text-center p-3 bg-dark text-white">
         © 2025 Quản lý sản phẩm. All rights reserved.
+        Địa chỉ: HUTECH University - E Campus 10/80C Xa lộ Hà Nội, Phường Tân Phú, Thủ Đức, Thành phố Hồ Chí Minh, Việt Nam.
     </div>
 </footer>
 
