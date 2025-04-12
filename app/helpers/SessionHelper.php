@@ -11,7 +11,15 @@ class SessionHelper {
     public static function isLoggedIn() {
         self::start();
         return isset($_SESSION['username']);
+    }// ✅ Bắt buộc người dùng phải đăng nhập
+    public static function requireLogin() {
+        self::start();
+        if (!isset($_SESSION['account_id'])) {
+        header('Location: /account/login');
+        exit;
     }
+}
+
 
     // Kiểm tra người dùng có phải admin không
     public static function isAdmin() {

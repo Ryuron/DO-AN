@@ -110,13 +110,20 @@
                     <a class="nav-link" href="/category/list">Quản lý danh mục</a>
                     </li>
                 <?php endif; ?>
-
+                
                 <?php if (SessionHelper::isLoggedIn()): ?>
                     <?php if ($_SESSION['role'] === 'admin'): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="/account/quanLyTaiKhoan">Quản lý tài khoản</a>
                         </li>
                     <?php endif; ?>
+                    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                        <a href="/product/listOrders">Quản lý đơn hàng</a>
+                    <?php endif; ?> 
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Product/order">Trạng thái đơn hàng</a>
+                    </li>
+
                     <?php if (!SessionHelper::isAdmin()): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="/account/quanLyTaiKhoan">

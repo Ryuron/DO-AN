@@ -4,6 +4,8 @@ require_once('app/config/database.php');
 require_once('app/models/ProductModel.php');
 require_once('app/models/CategoryModel.php');
 require_once 'app/models/AccountModel.php'; // Đảm bảo đường dẫn chính xác
+require_once 'app/models/Order.php';
+
 
 class ProductController
 {
@@ -334,6 +336,46 @@ class ProductController
         $products = $this->productModel->searchProducts($keyword, $category_id);
     
         include 'app/views/product/search_results.php';
+    }
+
+    public function listOrders() {
+        // Hiển thị danh sách đơn hàng đang chờ duyệt
+        $orders = Order::getByStatus('O');
+        include 'app/views/product/listOrders.php';
+    }
+    
+    public function approve($id) {
+        if ($_SESSION['role'] !== 'admin') {
+            die('Bạn không có quyền duyệt đơn hàng.');
+        }
+        Order::updateStatus($id, 'Y');
+        header('Location: /product/listOrders');
+    }
+    
+    public function cancel($id) {
+        if ($_SESSION['role'] !== 'admin') {
+            die('Bạn không có quyền hủy đơn hàng.');
+        }
+        Order::updateStatus($id, 'N');
+        header('Location: /product/listOrders');
+    }
+    
+    public function order()
+    {
+        SessionHelper::requireLogin();
+        
+        $account_id = $_SESSION['account_id'];
+        $role = $_SESSION['role'] ?? 'user'; // Mặc định là user nếu không có
+        
+        if ($role === 'admin') {
+            // admin xem tất cả đơn hàng
+            $orders = $this->productModel->getAllOrders(); 
+        } else {
+            // user chỉ xem đơn hàng của mình
+            $orders = $this->productModel->getOrdersByAccount($account_id);
+        }
+        
+        include 'app/views/product/order.php';
     }
     
 }

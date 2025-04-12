@@ -144,4 +144,38 @@ id=:id";
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+    
+    public static function getByStatus($status) {
+        $conn = Database::connect();
+        $stmt = $conn->prepare("SELECT * FROM orders WHERE STATUS = ?");
+        $stmt->execute([$status]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function updateStatus($id, $status) {
+        $conn = Database::connect();
+        $stmt = $conn->prepare("UPDATE orders SET STATUS = ? WHERE id = ?");
+        $stmt->execute([$status, $id]);
+    }
+    
+    public function getAllOrders()
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM orders ORDER BY created_at DESC");
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public function getOrdersByAccount($account_id)
+    {
+        // Truy vấn lấy tất cả đơn hàng của người dùng theo account_id
+        $query = "SELECT * FROM orders WHERE account_id = :account_id ORDER BY created_at DESC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':account_id', $account_id);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    
 }
