@@ -1,22 +1,20 @@
 <h2>Lịch sử mua hàng</h2>
-<table class="table table-bordered">
+<table border="1" cellpadding="8">
     <thead>
         <tr>
             <th>Ngày mua</th>
             <th>Sản phẩm</th>
             <th>Số lượng</th>
             <th>Thành tiền</th>
-            <th>Địa chỉ mua hàng</th>
         </tr>
     </thead>
     <tbody>
         <?php foreach ($orderHistory as $item): ?>
             <tr>
-                <td><?= date('d/m/Y H:i', strtotime($item['created_at'])) ?></td>
+                <td><?= $item['created_at'] ?></td>
                 <td><?= htmlspecialchars($item['product_name']) ?></td>
-                <td><?= htmlspecialchars($item['quantity']) ?></td>
+                <td><?= $item['quantity'] ?></td>
                 <td><?= number_format($item['line_total'], 0, ',', '.') ?>đ</td>
-                <td><?= htmlspecialchars($item['address']) ?></td>
             </tr>
         <?php endforeach; ?>
     </tbody>

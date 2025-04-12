@@ -104,12 +104,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/Product/cart">Giỏ hàng</a>
                 </li>
-                
-                <?php if (SessionHelper::isAdmin()): ?>
-                    <li class="nav-item">
-                    <a class="nav-link" href="/category/list">Quản lý danh mục</a>
-                    </li>
-                <?php endif; ?>
 
                 <?php if (SessionHelper::isLoggedIn()): ?>
                     <?php if ($_SESSION['role'] === 'admin'): ?>
