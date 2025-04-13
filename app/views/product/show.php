@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,7 +49,8 @@
         .product-name {
             font-size: 2rem;
             color: #fff;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7); /* Đổ bóng chữ */
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+            /* Đổ bóng chữ */
             font-weight: bold;
             margin-bottom: 15px;
         }
@@ -57,11 +59,15 @@
         .product-description {
             color: #ddd;
             font-size: 1.1rem;
-            text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5); /* Đổ bóng chữ cho mô tả */
+            text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5);
+            /* Đổ bóng chữ cho mô tả */
             margin-bottom: 20px;
         }
 
-        .text-white, .btn-glass, .btn-secondary, .btn-success {
+        .text-white,
+        .btn-glass,
+        .btn-secondary,
+        .btn-success {
             color: white;
         }
 
@@ -87,6 +93,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="glass-card">
@@ -97,8 +104,8 @@
                     <?php if ($product->image): ?>
                         <div class="text-center mb-3">
                             <img src="/<?php echo htmlspecialchars($product->image, ENT_QUOTES, 'UTF-8'); ?>"
-                                 class="img-fluid rounded shadow-sm" style="max-height: 400px; object-fit: cover;"
-                                 alt="<?php echo htmlspecialchars($product->name, ENT_QUOTES, 'UTF-8'); ?>">
+                                class="img-fluid rounded shadow-sm" style="max-height: 400px; object-fit: cover;"
+                                alt="<?php echo htmlspecialchars($product->name, ENT_QUOTES, 'UTF-8'); ?>">
                         </div>
                         <?php if (!empty($galleryImages)): ?>
                             <div class="mt-3">
@@ -107,7 +114,7 @@
                                     <?php foreach ($galleryImages as $img): ?>
                                         <div style="width: 80px; height: 80px;">
                                             <img src="/<?php echo htmlspecialchars($img->image_path); ?>"
-                                                 class="img-thumbnail w-100 h-100" alt="Ảnh phụ">
+                                                class="img-thumbnail w-100 h-100" alt="Ảnh phụ">
                                         </div>
                                     <?php endforeach; ?>
                                 </div>
@@ -115,7 +122,7 @@
                         <?php endif; ?>
                     <?php else: ?>
                         <img src="/images/no-image.png"
-                             class="img-fluid rounded" alt="Không có ảnh">
+                            class="img-fluid rounded" alt="Không có ảnh">
                     <?php endif; ?>
                 </div>
 
@@ -143,7 +150,7 @@
                     </p>
 
                     <div class="mt-4">
-                    <a href="/Product" class="btn btn-secondary btn-glass mt-3" style="color:chartreuse"><i class="fa-solid fa-plus" ></i> Thêm vào giỏ hàng</a>
+                        <a href="/Product/addToCart/<?php echo $product->id; ?>" class="btn btn-secondary btn-glass mt-3" style="color:chartreuse"><i class="fa-solid fa-plus"  ; ></i> Thêm vào giỏ</a>
                         <a href="/Product" class="btn btn-secondary btn-glass mt-3"><i class="fa fa-arrow-left"></i> Quay lại trang chủ</a>
                     </div>
                 </div>
@@ -157,4 +164,5 @@
         </div>
     </div>
 </body>
+
 </html>
